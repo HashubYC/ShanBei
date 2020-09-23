@@ -62,14 +62,17 @@ def check_in():
 
     try:
         finish = driver.find_element_by_class_name("finish-button")
-        for i in range(1, 6):  # 循环放在外面
-            time.sleep(50)
+        for i in range(1, 25):  # 循环放在外面
+            time.sleep(15)
             finish.click()
     except:
-        pass
-    finally:
+        print("没有找到finish-button")
+
+    try:
         driver.find_element_by_class_name("load-more")
         print("已经看过了=_=")
+    except:
+        print("没有找到load-more")
 
 
 def main(account, password):
