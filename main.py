@@ -55,9 +55,9 @@ def login_in(url, account, password):
 
 
 def check_in():
+    time.sleep(1.5)
     js = "var q=document.documentElement.scrollTop=100000"
     driver.execute_script(js)  # 将页面滚动条拖到底部
-    time.sleep(3)
     print("=====到底了=====")
 
     try:
