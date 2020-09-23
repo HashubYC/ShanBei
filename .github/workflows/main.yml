@@ -1,0 +1,36 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+#10 22,13 * * *   6:10    21:10
+# 40 4 * * *   12:40
+
+
+name: ShanBayCheck
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  40 4 * * *
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        pip3 install requests selenium==3.14
+        
+    - name: ShanBayCheck
+      run: |
+        python3 main.py <<EOF
+        ${{secrets.ACCOUNT}}
+        ${{secrets.PASSWORD}}
+        EOF
