@@ -2,16 +2,13 @@ from selenium import webdriver
 import time
 import requests
 from selenium.webdriver import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-
 
 driver = webdriver.Chrome(executable_path="E:/WebDrivers/chromedriver.exe")
 driver.maximize_window()  # 窗口最大化
-timeout = WebDriverWait(driver, 7)  # 设置等待上限7秒
 
 
 def get_read_url():
-    news_url = "https://www.shanbay.com/api/v2/news/articles/?ipp=10&page=1"
+    news_url = "https://www.shanbay.com/api/v2/news/articles/?ipp=22&page=1"
     start_url = "https://www.shanbay.com/news/articles/"
     response = requests.get(news_url)
     data = response.json()
@@ -25,7 +22,7 @@ def get_read_url():
     return read_url_list
 
 
-def login_in(url):
+def login_in(url, account, password):
     driver.get(url)
     time.sleep(2)
     js1 = '''Object.defineProperties(navigator,{ webdriver:{ get: () => false } }) '''
@@ -38,8 +35,8 @@ def login_in(url):
     driver.execute_script(js4)
     time.sleep(2)
     try:
-        driver.find_element_by_id("input-account").send_keys("15703704272")
-        driver.find_element_by_id("input-password").send_keys("19990919")
+        driver.find_element_by_id("input-account").send_keys(account)
+        driver.find_element_by_id("input-password").send_keys(password)
         time.sleep(2)
     except:
         # print("不需要登陆===")
@@ -58,9 +55,8 @@ def login_in(url):
 
 
 def check_in():
-    # 将页面滚动条拖到底部
     js = "var q=document.documentElement.scrollTop=100000"
-    driver.execute_script(js)
+    driver.execute_script(js)  # 将页面滚动条拖到底部
     time.sleep(3)
     print("=====到底了=====")
 
@@ -76,12 +72,14 @@ def check_in():
         print("已经看过了=_=")
 
 
-def main():
+def main(account, password):
     read_url_list = get_read_url()
     for url in read_url_list:
-        login_in(url)
+        login_in(url, account, password)
         check_in()
 
 
 if __name__ == '__main__':
-    main()
+    account = input()
+    password = input()
+    main(account, password)
