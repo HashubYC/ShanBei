@@ -4,13 +4,14 @@ import requests
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 
-# driver = webdriver.Chrome(executable_path="‪E:\\WebDrivers\\chromedriver.exe")
+# driver = webdriver.Chrome(executable_path="E:\WebDrivers\chromedriver.exe")
 
 chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options=chrome_options)
+# driver = webdriver.Chrome(executable_path="E:\WebDrivers\chromedriver.exe", chrome_options=chrome_options)
 
 driver.maximize_window()  # 窗口最大化
 
@@ -32,7 +33,7 @@ def get_read_url():
 
 def login_in(url, account, password):
     driver.get(url)
-    time.sleep(10)
+    time.sleep(5)
     js1 = '''Object.defineProperties(navigator,{ webdriver:{ get: () => false } })'''
     js2 = '''window.navigator.chrome = { runtime: {},  };'''
     js3 = '''Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });'''
@@ -56,7 +57,7 @@ def login_in(url, account, password):
             ActionChains(driver).move_by_offset(xoffset=280, yoffset=0).perform()
             ActionChains(driver).pause(0.5).release().perform()
             driver.find_element_by_id("button-login").click()
-            print("登陆==========")
+            print("=====登陆成功=====")
             time.sleep(5)
     except:
         pass
@@ -84,7 +85,7 @@ def check_in():
     except:
         print("没有找到load-more")
 
-    if looked > 5:
+    if looked > 5:  # 看过5个退出
         exit(1)
 
 
