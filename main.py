@@ -2,8 +2,15 @@ from selenium import webdriver
 import time
 import requests
 from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.options import Options
 
 driver = webdriver.Chrome(executable_path="E:/WebDrivers/chromedriver.exe")
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+driver = webdriver.Chrome('/usr/bin/chromedriver', chrome_options=chrome_options)
+
 driver.maximize_window()  # 窗口最大化
 
 
