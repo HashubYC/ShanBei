@@ -4,6 +4,8 @@ import requests
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 
+# driver = webdriver.Chrome(executable_path="‪E:\\WebDrivers\\chromedriver.exe")
+
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
@@ -30,20 +32,20 @@ def get_read_url():
 
 def login_in(url, account, password):
     driver.get(url)
-    time.sleep(2)
-    js1 = '''Object.defineProperties(navigator,{ webdriver:{ get: () => false } }) '''
-    js2 = '''window.navigator.chrome = { runtime: {},  }; '''
-    js3 = '''Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] }); '''
-    js4 = '''Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5,6], }); '''
+    time.sleep(10)
+    js1 = '''Object.defineProperties(navigator,{ webdriver:{ get: () => false } })'''
+    js2 = '''window.navigator.chrome = { runtime: {},  };'''
+    js3 = '''Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });'''
+    js4 = '''Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5,6], });'''
     driver.execute_script(js1)
     driver.execute_script(js2)
     driver.execute_script(js3)
     driver.execute_script(js4)
-    time.sleep(2)
+    time.sleep(5)
     try:
         driver.find_element_by_id("input-account").send_keys(account)
         driver.find_element_by_id("input-password").send_keys(password)
-        time.sleep(2)
+        time.sleep(5)
     except:
         # print("不需要登陆===")
         pass
@@ -61,7 +63,8 @@ def login_in(url, account, password):
 
 
 def check_in():
-    time.sleep(1.5)
+    looked = 0
+    time.sleep(3)
     js = "var q=document.documentElement.scrollTop=100000"
     driver.execute_script(js)  # 将页面滚动条拖到底部
     print("=====到底了=====")
@@ -77,8 +80,12 @@ def check_in():
     try:
         driver.find_element_by_class_name("load-more")
         print("已经看过了=_=")
+        looked += 1
     except:
         print("没有找到load-more")
+
+    if looked > 5:
+        exit(1)
 
 
 def main(account, password):
