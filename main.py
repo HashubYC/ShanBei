@@ -7,9 +7,21 @@ from selenium.webdriver.chrome.options import Options
 # driver = webdriver.Chrome(executable_path="E:\WebDrivers\chromedriver.exe")
 
 chrome_options = Options()
-# chrome_options.add_argument('--headless')
-# chrome_options.add_argument('--no-sandbox')
-# chrome_options.add_argument('--disable-dev-shm-usage')
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
+chrome_options.add_argument('--disable-dev-shm-usage')
+
+# 这种方式在非无头Headless模式下是生效的
+# prefs = {
+#     'profile.default_content_settings': {
+#         'profile.default_content_setting_values': {
+#             'images': 2,  # 不加载图片
+#             'javascript': 2,  # 不加载JS
+#             # "User-Agent": ua,  # 更换UA
+#         }}}
+# chrome_options.add_experimental_option("prefs", prefs)
+
 driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options=chrome_options)
 # driver = webdriver.Chrome(executable_path="E:\WebDrivers\chromedriver.exe", chrome_options=chrome_options)
 
@@ -60,6 +72,7 @@ def login_in(url, account, password):
             print("=====登陆成功=====")
             time.sleep(5)
     except:
+        print("没有找到滑块！！！！！！！！")
         pass
 
 
